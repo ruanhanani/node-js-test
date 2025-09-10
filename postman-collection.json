@@ -1,0 +1,546 @@
+{
+  "info": {
+    "name": "Node.js Test API - Gerenciador de Projetos e Tarefas",
+    "description": "API REST completa para gerenciamento de projetos e tarefas com integração GitHub.\n\n## Funcionalidades\n- ✅ CRUD completo de Projetos e Tarefas\n- ✅ Integração com GitHub API\n- ✅ Cache Redis com TTL de 10 minutos\n- ✅ Arquitetura em camadas\n- ✅ Validação rigorosa com Joi\n- ✅ Tratamento robusto de erros\n- ✅ Paginação e filtros\n\n## Como usar\n1. Inicie o servidor: `npm run dev`\n2. Acesse http://localhost:3000/api-docs para Swagger\n3. Use esta coleção para testar endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "🏠 API Info",
+      "item": [
+        {
+          "name": "API Docs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📁 Projects CRUD",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"AI Chatbot Project\",\n  \"description\": \"Intelligent chatbot using OpenAI GPT for customer support\",\n  \"status\": \"active\",\n  \"startDate\": \"2025-03-01\",\n  \"endDate\": \"2025-09-30\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"E-commerce Platform Updated\",\n  \"description\": \"Complete e-commerce solution with React, Node.js and AI recommendations\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "✅ Tasks CRUD",
+      "item": [
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Task by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Implement payment gateway\",\n  \"description\": \"Integrate Stripe payment system with the e-commerce platform\",\n  \"status\": \"pending\",\n  \"priority\": \"high\",\n  \"projectId\": 1,\n  \"dueDate\": \"2025-04-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Create Task in Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Setup CI/CD pipeline\",\n  \"description\": \"Configure automated testing and deployment with GitHub Actions\",\n  \"status\": \"pending\",\n  \"priority\": \"medium\",\n  \"dueDate\": \"2025-03-20\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Update Task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Implement user authentication - Updated\",\n  \"description\": \"Add JWT-based authentication with OAuth social login support\",\n  \"status\": \"completed\",\n  \"priority\": \"critical\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "2"]
+            }
+          }
+        },
+        {
+          "name": "Mark Task as Complete",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/3/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "3", "complete"]
+            }
+          }
+        },
+        {
+          "name": "Start Task",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/3/start",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "3", "start"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Task",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/3/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "3", "cancel"]
+            }
+          }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Filters & Search",
+      "item": [
+        {
+          "name": "Filter Projects by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects?status=active&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "active"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter Tasks by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/by-status/in_progress?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "by-status", "in_progress"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter Tasks by Priority",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/by-priority/high?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "by-priority", "high"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project Tasks with Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/tasks?status=in_progress&priority=high",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "tasks"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "in_progress"
+                },
+                {
+                  "key": "priority",
+                  "value": "high"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/search?q=commerce",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "commerce"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/search?q=authentication",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "authentication"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Statistics & Reports",
+      "item": [
+        {
+          "name": "Project Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Task Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Active Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "active"]
+            }
+          }
+        },
+        {
+          "name": "Overdue Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/overdue",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "overdue"]
+            }
+          }
+        },
+        {
+          "name": "Tasks Due in X Days",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/due-in/7",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "due-in", "7"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🐙 GitHub Integration",
+      "item": [
+        {
+          "name": "Get GitHub Repositories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/github/testuser",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "github", "testuser"]
+            }
+          }
+        },
+        {
+          "name": "Get Project GitHub Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/github-stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "github-stats"]
+            }
+          }
+        },
+        {
+          "name": "Clear Project GitHub Cache",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/github-cache",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "github-cache"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
