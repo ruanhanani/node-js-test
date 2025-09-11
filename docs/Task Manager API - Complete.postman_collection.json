@@ -1,0 +1,600 @@
+{
+	"info": {
+		"_postman_id": "357a4018-bd5b-43f3-ac74-c6af694b28eb",
+		"name": "Task Manager - API",
+		"description": "🚀 API REST completa para gerenciamento de projetos e tarefas com integração GitHub.\n\n## ⚡ Funcionalidades\n- ✅ CRUD completo de Projetos e Tarefas\n- ✅ **Integração GitHub** - Busca repositórios públicos\n- ✅ Cache inteligente com TTL de 10 minutos\n- ✅ Arquitetura em camadas (Controller → Service → Repository)\n- ✅ Validação rigorosa com Joi\n- ✅ Tratamento robusto de erros\n- ✅ Paginação e filtros avançados\n\n## 🐙 GitHub Integration Testada\n- **anuraghazra**: 75,828 ⭐ (github-readme-stats)\n- **EbookFoundation**: 367,907 ⭐ (free-programming-books)\n- **public-apis**: 364,711 ⭐ (public-apis)\n\n## 🚀 Como usar\n1. Inicie o servidor: `npm run dev`\n2. Acesse http://localhost:3000/api-docs para Swagger\n3. Use esta coleção para testar todos os endpoints\n4. Teste a integração GitHub nos exemplos incluídos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37775556"
+	},
+	"item": [
+		{
+			"name": "API Info",
+			"item": [
+				{
+					"name": "API Docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects CRUD",
+			"item": [
+				{
+					"name": "Get All Projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects?page=1&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"AI Chatbot Project\",\n  \"description\": \"Intelligent chatbot using OpenAI GPT for customer support\",\n  \"status\": \"active\",\n  \"startDate\": \"2025-03-01\",\n  \"endDate\": \"2025-09-30\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"E-commerce Platform Updated\",\n  \"description\": \"Complete e-commerce solution with React, Node.js and AI recommendations\",\n  \"status\": \"active\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks CRUD",
+			"item": [
+				{
+					"name": "Get All Tasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks?page=1&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Implement payment gateway\",\n  \"description\": \"Integrate Stripe payment system with the e-commerce platform\",\n  \"status\": \"pending\",\n  \"priority\": \"high\",\n  \"projectId\": 1,\n  \"dueDate\": \"2025-04-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task in Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Setup CI/CD pipeline\",\n  \"description\": \"Configure automated testing and deployment with GitHub Actions\",\n  \"status\": \"pending\",\n  \"priority\": \"medium\",\n  \"dueDate\": \"2025-03-20\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Implement user authentication - Updated\",\n  \"description\": \"Add JWT-based authentication with OAuth social login support\",\n  \"status\": \"completed\",\n  \"priority\": \"critical\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Task as Complete",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/3/complete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"3",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Task",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/3/start",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"3",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Task",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/3/cancel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"3",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GitHub Integration",
+			"item": [
+				{
+					"name": "Get GitHub Repositories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"GitHub repositories returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data).to.have.property('repositories');",
+									"    pm.expect(jsonData.data.repositories).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Response contains project info\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.have.property('project');",
+									"    pm.expect(jsonData.data.project).to.have.property('id');",
+									"});",
+									"",
+									"pm.test(\"Response contains metadata\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.have.property('meta');",
+									"    pm.expect(jsonData.data.meta).to.have.property('totalRepositories');",
+									"    pm.expect(jsonData.data.meta).to.have.property('cached');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/github/{{github_username}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{{project_id}}",
+								"github",
+								"{{github_username}}"
+							]
+						},
+						"description": "Busca repositórios GitHub de um usuário e associa ao projeto."
+					},
+					"response": []
+				},
+				{
+					"name": "Create GitHub Repository Manually",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Repository created successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data).to.have.property('id');",
+									"    pm.expect(jsonData.data).to.have.property('githubId');",
+									"    pm.expect(jsonData.data).to.have.property('name');",
+									"    pm.expect(jsonData.data).to.have.property('projectId');",
+									"});",
+									"",
+									"pm.test(\"Repository has required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.have.property('fullName');",
+									"    pm.expect(jsonData.data).to.have.property('htmlUrl');",
+									"    pm.expect(jsonData.data).to.have.property('cloneUrl');",
+									"    pm.expect(jsonData.data).to.have.property('username');",
+									"});",
+									"",
+									"// Save repository ID for future use",
+									"if (pm.response.json().data && pm.response.json().data.id) {",
+									"    pm.environment.set(\"repo_id\", pm.response.json().data.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"githubId\": 999888777,\n  \"name\": \"awesome-project\",\n  \"fullName\": \"myuser/awesome-project\",\n  \"description\": \"An awesome project created manually\",\n  \"htmlUrl\": \"https://github.com/myuser/awesome-project\",\n  \"cloneUrl\": \"https://github.com/myuser/awesome-project.git\",\n  \"language\": \"TypeScript\",\n  \"stargazersCount\": 150,\n  \"forksCount\": 25,\n  \"private\": false,\n  \"username\": \"myuser\",\n  \"githubCreatedAt\": \"2024-01-15T10:30:00Z\",\n  \"githubUpdatedAt\": \"2024-03-10T14:20:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/github/repositories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{{project_id}}",
+								"github",
+								"repositories"
+							]
+						},
+						"description": "Cria um repositório GitHub manualmente no projeto."
+					},
+					"response": []
+				},
+				{
+					"name": "Clear GitHub Cache",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Cache cleared successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.message).to.include(\"limpo\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/github-cache?username={{github_username}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{{project_id}}",
+								"github-cache"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{github_username}}"
+								}
+							]
+						},
+						"description": "Limpa o cache do GitHub para um projeto e usuário específico."
+					},
+					"response": []
+				}
+			],
+			"description": "Integração com GitHub API para buscar e gerenciar repositórios."
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		}
+	]
+}

@@ -174,12 +174,12 @@ export class TaskRepository extends BaseRepository<Task> implements ITaskReposit
       [Op.or]: [
         {
           title: {
-            [Op.iLike]: `%${query}%`,
+            [Op.like]: `%${query}%`,
           },
         },
         {
           description: {
-            [Op.iLike]: `%${query}%`,
+            [Op.like]: `%${query}%`,
           },
         },
       ],
@@ -208,7 +208,26 @@ export class TaskRepository extends BaseRepository<Task> implements ITaskReposit
       whereClause.projectId = projectId;
     }
 
-    return await this.findAndCountAll({
+    // Force numeric conversion and validate
+    let finalLimit: number | undefined = undefined;
+    let finalOffset: number | undefined = undefined;
+
+    if (limit !== undefined && limit !== null) {
+      const parsedLimit = typeof limit === 'number' ? limit : parseInt(String(limit), 10);
+      if (!isNaN(parsedLimit) && parsedLimit > 0) {
+        finalLimit = parsedLimit;
+      }
+    }
+
+    if (offset !== undefined && offset !== null) {
+      const parsedOffset = typeof offset === 'number' ? offset : parseInt(String(offset), 10);
+      if (!isNaN(parsedOffset) && parsedOffset >= 0) {
+        finalOffset = parsedOffset;
+      }
+    }
+
+    // Use Task model directly to avoid inheritance issues
+    const options: any = {
       where: whereClause,
       include: [
         {
@@ -217,10 +236,17 @@ export class TaskRepository extends BaseRepository<Task> implements ITaskReposit
           attributes: ['id', 'name', 'status'],
         },
       ],
-      limit,
-      offset,
       order: [['priority', 'DESC'], ['createdAt', 'DESC']],
-    });
+    };
+
+    if (finalLimit) {
+      options.limit = finalLimit;
+    }
+    if (finalOffset !== undefined) {
+      options.offset = finalOffset;
+    }
+
+    return await Task.findAndCountAll(options);
   }
 
   async findTasksForProject(projectId: number, filters?: {

@@ -33,7 +33,10 @@ export class TaskController {
     if (overdue === 'true') filters.overdue = true;
     if (dueInDays) filters.dueInDays = parseInt(dueInDays);
 
-    const result = await this.taskService.getTasks(filters, page, limit);
+    const pageNum = page ? parseInt(page) : 1;
+    const limitNum = limit ? parseInt(limit) : 10;
+
+    const result = await this.taskService.getTasks(filters, pageNum, limitNum);
 
     res.status(200).json({
       success: true,
@@ -60,6 +63,24 @@ export class TaskController {
     res.status(200).json({
       success: true,
       message: 'Tarefa recuperada com sucesso',
+      data: task,
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  /**
+   * @route   POST /api/tasks
+   * @desc    Create a new task directly
+   * @access  Public
+   */
+  createTaskDirect = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    const taskData = req.body;
+
+    const task = await this.taskService.createTask(taskData);
+
+    res.status(201).json({
+      success: true,
+      message: 'Tarefa criada com sucesso',
       data: task,
       timestamp: new Date().toISOString(),
     });

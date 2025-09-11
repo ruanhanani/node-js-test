@@ -133,12 +133,12 @@ export class ProjectRepository extends BaseRepository<Project> implements IProje
         [Op.or]: [
           {
             name: {
-              [Op.iLike]: `%${query}%`,
+              [Op.like]: `%${query}%`,
             },
           },
           {
             description: {
-              [Op.iLike]: `%${query}%`,
+              [Op.like]: `%${query}%`,
             },
           },
         ],
@@ -153,8 +153,7 @@ export class ProjectRepository extends BaseRepository<Project> implements IProje
   }
 
   async findAllWithCounts(limit?: number, offset?: number): Promise<{ rows: Project[]; count: number }> {
-    // Simplified version for SQLite compatibility
-    const result = await this.findAndCountAll({
+    const options: any = {
       include: [
         {
           model: Task,
@@ -165,11 +164,22 @@ export class ProjectRepository extends BaseRepository<Project> implements IProje
           as: 'githubRepos',
         },
       ],
-      limit,
-      offset,
       order: [['createdAt', 'DESC']],
-    });
+    };
 
-    return result;
+    if (limit !== undefined && limit !== null) {
+      const limitNum = typeof limit === 'string' ? parseInt(limit, 10) : Number(limit);
+      if (!isNaN(limitNum) && limitNum > 0) {
+        options.limit = limitNum;
+      }
+    }
+    if (offset !== undefined && offset !== null) {
+      const offsetNum = typeof offset === 'string' ? parseInt(offset, 10) : Number(offset);
+      if (!isNaN(offsetNum) && offsetNum >= 0) {
+        options.offset = offsetNum;
+      }
+    }
+
+    return await this.findAndCountAll(options);
   }
 }

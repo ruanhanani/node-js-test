@@ -8,6 +8,7 @@ export interface IGitHubRepository {
   findByUsername(username: string): Promise<GitHubRepo[]>;
   findByProjectId(projectId: number): Promise<GitHubRepo[]>;
   findByGithubId(githubId: number): Promise<GitHubRepo | null>;
+  findByGithubIdAndProject(githubId: number, projectId: number): Promise<GitHubRepo | null>;
   bulkUpsert(repos: any[]): Promise<GitHubRepo[]>;
   deleteOldRepos(projectId: number, username: string, keepIds: number[]): Promise<number>;
 }
@@ -63,6 +64,22 @@ export class GitHubRepository extends BaseRepository<GitHubRepo> implements IGit
     return await this.findOne({
       where: {
         githubId,
+      } as WhereOptions,
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          attributes: ['id', 'name', 'status'],
+        },
+      ],
+    });
+  }
+
+  async findByGithubIdAndProject(githubId: number, projectId: number): Promise<GitHubRepo | null> {
+    return await this.findOne({
+      where: {
+        githubId,
+        projectId,
       } as WhereOptions,
       include: [
         {

@@ -1,34 +1,202 @@
-require('dotenv').config();
-
-module.exports = {
-  development: {
-    username: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'password',
-    database: process.env.DB_NAME || 'node_js_test',
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT) || 3306,
-    dialect: 'mysql',
-    logging: process.env.NODE_ENV === 'development' ? console.log : false,
-    timezone: '-03:00',
-  },
-  test: {
-    username: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'password',
-    database: process.env.DB_NAME + '_test' || 'node_js_test_test',
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT) || 3306,
-    dialect: 'mysql',
-    logging: false,
-    timezone: '-03:00',
-  },
-  production: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT) || 3306,
-    dialect: 'mysql',
-    logging: false,
-    timezone: '-03:00',
-  },
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sequelize = void 0;
+exports.connectDatabase = connectDatabase;
+exports.seedDatabase = seedDatabase;
+const sequelize_typescript_1 = require("sequelize-typescript");
+const Project_1 = require("@models/Project");
+const Task_1 = require("@models/Task");
+const GitHubRepo_1 = require("@models/GitHubRepo");
+const env = process.env.NODE_ENV || 'development';
+const config = {
+    development: {
+        username: process.env.DB_USER || 'task_user',
+        password: process.env.DB_PASSWORD || 'task_password',
+        database: process.env.DB_NAME || 'task_manager',
+        host: process.env.DB_HOST || 'localhost',
+        port: parseInt(process.env.DB_PORT) || 3306,
+        dialect: 'mysql',
+        logging: env === 'development' ? console.log : false,
+        timezone: '-03:00',
+    },
+    test: {
+        dialect: 'sqlite',
+        storage: ':memory:',
+        logging: false,
+    },
+    production: {
+        username: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT) || 3306,
+        dialect: 'mysql',
+        logging: false,
+        timezone: '-03:00',
+    },
 };
+const dbConfig = config[env];
+exports.sequelize = new sequelize_typescript_1.Sequelize({
+    dialect: dbConfig.dialect,
+    storage: dbConfig.storage || undefined,
+    database: dbConfig.database || undefined,
+    username: dbConfig.username || undefined,
+    password: dbConfig.password || undefined,
+    host: dbConfig.host || undefined,
+    port: dbConfig.port || undefined,
+    logging: dbConfig.logging,
+    timezone: dbConfig.timezone || undefined,
+    models: [Project_1.Project, Task_1.Task, GitHubRepo_1.GitHubRepo],
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+    },
+});
+async function connectDatabase() {
+    try {
+        await exports.sequelize.authenticate();
+        console.log('✅ Database connection established successfully.');
+        if (env === 'development') {
+            await exports.sequelize.sync({ alter: true });
+            console.log('✅ Database synchronized.');
+            // Seed database with mock data only if tables are empty
+            const projectCount = await exports.sequelize.models.Project.count();
+            if (projectCount === 0) {
+                await seedDatabase();
+                console.log('✅ Database seeded with mock data.');
+            } else {
+                console.log('✅ Database already has data, skipping seed.');
+            }
+        }
+    }
+    catch (error) {
+        console.error('❌ Unable to connect to the database:', error);
+        process.exit(1);
+    }
+}
+// Seed database with mock data
+async function seedDatabase() {
+    // Create sample projects
+    const project1 = await Project_1.Project.create({
+        name: 'E-commerce Platform',
+        description: 'Complete e-commerce solution with React and Node.js',
+        status: 'active',
+        startDate: new Date('2025-01-01'),
+        endDate: new Date('2025-06-30'),
+    });
+    const project2 = await Project_1.Project.create({
+        name: 'Mobile App',
+        description: 'Cross-platform mobile application using React Native',
+        status: 'active',
+        startDate: new Date('2025-02-01'),
+        endDate: new Date('2025-08-31'),
+    });
+    const project3 = await Project_1.Project.create({
+        name: 'Data Analytics Dashboard',
+        description: 'Business intelligence dashboard with real-time analytics',
+        status: 'completed',
+        startDate: new Date('2024-09-01'),
+        endDate: new Date('2024-12-31'),
+    });
+    // Create sample tasks
+    await Task_1.Task.create({
+        title: 'Setup project structure',
+        description: 'Initialize the project with proper folder structure and dependencies',
+        status: 'completed',
+        priority: 'high',
+        projectId: project1.id,
+        dueDate: new Date('2025-01-15'),
+    });
+    await Task_1.Task.create({
+        title: 'Implement user authentication',
+        description: 'Add JWT-based authentication system with login and registration',
+        status: 'in_progress',
+        priority: 'critical',
+        projectId: project1.id,
+        dueDate: new Date('2025-02-28'),
+    });
+    await Task_1.Task.create({
+        title: 'Design product catalog',
+        description: 'Create responsive product listing and detail pages',
+        status: 'pending',
+        priority: 'medium',
+        projectId: project1.id,
+        dueDate: new Date('2025-03-15'),
+    });
+    await Task_1.Task.create({
+        title: 'Setup React Native environment',
+        description: 'Configure development environment for iOS and Android',
+        status: 'completed',
+        priority: 'high',
+        projectId: project2.id,
+        dueDate: new Date('2025-02-10'),
+    });
+    await Task_1.Task.create({
+        title: 'Implement navigation',
+        description: 'Setup navigation system using React Navigation',
+        status: 'in_progress',
+        priority: 'medium',
+        projectId: project2.id,
+        dueDate: new Date('2025-03-01'),
+    });
+    await Task_1.Task.create({
+        title: 'Deploy dashboard',
+        description: 'Deploy the analytics dashboard to production',
+        status: 'completed',
+        priority: 'high',
+        projectId: project3.id,
+        dueDate: new Date('2024-12-30'),
+    });
+    // Create sample GitHub repositories
+    await GitHubRepo_1.GitHubRepo.create({
+        githubId: 123456789,
+        name: 'ecommerce-frontend',
+        fullName: 'testuser/ecommerce-frontend',
+        description: 'Frontend for e-commerce platform built with React',
+        htmlUrl: 'https://github.com/testuser/ecommerce-frontend',
+        cloneUrl: 'https://github.com/testuser/ecommerce-frontend.git',
+        language: 'TypeScript',
+        stargazersCount: 42,
+        forksCount: 8,
+        private: false,
+        username: 'testuser',
+        projectId: project1.id,
+        githubCreatedAt: new Date('2025-01-01'),
+        githubUpdatedAt: new Date('2025-01-20'),
+    });
+    await GitHubRepo_1.GitHubRepo.create({
+        githubId: 987654321,
+        name: 'ecommerce-backend',
+        fullName: 'testuser/ecommerce-backend',
+        description: 'Backend API for e-commerce platform built with Node.js',
+        htmlUrl: 'https://github.com/testuser/ecommerce-backend',
+        cloneUrl: 'https://github.com/testuser/ecommerce-backend.git',
+        language: 'JavaScript',
+        stargazersCount: 35,
+        forksCount: 12,
+        private: false,
+        username: 'testuser',
+        projectId: project1.id,
+        githubCreatedAt: new Date('2025-01-01'),
+        githubUpdatedAt: new Date('2025-01-25'),
+    });
+    await GitHubRepo_1.GitHubRepo.create({
+        githubId: 456789123,
+        name: 'mobile-app-rn',
+        fullName: 'testuser/mobile-app-rn',
+        description: 'Cross-platform mobile app built with React Native',
+        htmlUrl: 'https://github.com/testuser/mobile-app-rn',
+        cloneUrl: 'https://github.com/testuser/mobile-app-rn.git',
+        language: 'TypeScript',
+        stargazersCount: 28,
+        forksCount: 5,
+        private: false,
+        username: 'testuser',
+        projectId: project2.id,
+        githubCreatedAt: new Date('2025-02-01'),
+        githubUpdatedAt: new Date('2025-02-15'),
+    });
+}
+//# sourceMappingURL=database.js.map

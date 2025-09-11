@@ -57,45 +57,50 @@ export class ProjectService {
       pages: number;
     };
   }> {
-    const cacheKey = cacheManager.generateKey('projects', JSON.stringify(filters || {}), page, limit);
+    console.log('🔍 getProjects called with:', { filters, page, limit });
     
-    return await cacheManager.getOrSet(
-      cacheKey,
-      async () => {
-        const offset = (page - 1) * limit;
-        let projects: any[];
-        let total: number;
-
-        if (filters?.search) {
-          projects = await this.projectRepository.search(filters.search);
-          total = projects.length;
-          projects = projects.slice(offset, offset + limit);
-        } else if (filters?.status) {
-          projects = await this.projectRepository.findByStatus(filters.status);
-          total = projects.length;
-          projects = projects.slice(offset, offset + limit);
-        } else if (filters?.startDate && filters?.endDate) {
-          projects = await this.projectRepository.findByDateRange(filters.startDate, filters.endDate);
-          total = projects.length;
-          projects = projects.slice(offset, offset + limit);
-        } else {
-          const result = await this.projectRepository.findAllWithCounts(limit, offset);
-          projects = result.rows;
-          total = result.count;
-        }
-
-        return {
-          projects: projects.map(p => p.toJSON()),
-          pagination: {
-            page,
-            limit,
-            total,
-            pages: Math.ceil(total / limit),
-          },
-        };
-      },
-      300 // 5 minutes TTL
-    );
+    try {
+      // ULTRA SIMPLE VERSION - no offset, no limit, no complex queries
+      console.log('📊 Calling projectRepository.findAll() - ultra simple');
+      const allProjects = await this.projectRepository.findAll();
+      console.log('📋 Found total projects:', allProjects.length);
+      
+      // Manual pagination
+      const total = allProjects.length;
+      const offset = (page - 1) * limit;
+      const paginatedProjects = allProjects.slice(offset, offset + limit);
+      
+      console.log('📋 Paginated projects:', paginatedProjects.length);
+      
+      return {
+        projects: paginatedProjects.map(p => {
+          try {
+            return p.toJSON();
+          } catch (jsonError) {
+            console.error('⚠️ Error converting project to JSON:', jsonError);
+            return { 
+              id: p.id, 
+              name: p.name, 
+              description: p.description, 
+              status: p.status 
+            };
+          }
+        }),
+        pagination: {
+          page: parseInt(String(page)),
+          limit: parseInt(String(limit)),
+          total,
+          pages: Math.ceil(total / limit),
+        },
+      };
+    } catch (error) {
+      console.error('❌ DETAILED Error in getProjects:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
+      throw error;
+    }
   }
 
   /**
@@ -253,10 +258,13 @@ export class ProjectService {
     }
 
     // Validate dates are not in the past for new projects (unless updating)
-    if (!isUpdate && data.startDate && data.startDate < new Date()) {
+    if (!isUpdate && data.startDate) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      if (data.startDate < today) {
+      const startDate = new Date(data.startDate);
+      startDate.setHours(0, 0, 0, 0);
+      
+      if (startDate < today) {
         throw new Error('Project start date cannot be in the past');
       }
     }

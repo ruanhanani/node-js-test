@@ -2,13 +2,14 @@ import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
-import { connectDatabase } from '@config/database-simple';
+import { connectDatabase } from '@config/database-mysql';
 import { redisClient } from '@config/redis';
 import { swaggerUi, swaggerSpec } from '@config/swagger';
 import projectRoutes from '@routes/projectRoutes';
 import taskRoutes from '@routes/taskRoutes';
 import projectTaskRoutes from '@routes/projectTaskRoutes';
 import { simpleRoutes } from '@routes/simple';
+import testRoutes from '@routes/testRoutes';
 import {
   globalErrorHandler,
   notFoundHandler,
@@ -31,23 +32,23 @@ class App {
   }
 
   private initializeMiddlewares(): void {
-    // Security and performance middlewares
-    this.app.use(helmet());
-    this.app.use(compression());
-    this.app.use(corsMiddleware);
+    // Security and performance middlewares - TEMPORARILY DISABLED
+    // this.app.use(helmet());
+    // this.app.use(compression());
+    // this.app.use(corsMiddleware);
     
-    // Rate limiting
-    this.app.use(rateLimit(100, 15 * 60 * 1000)); // 100 requests per 15 minutes
+    // Rate limiting - TEMPORARILY DISABLED
+    // this.app.use(rateLimit(100, 15 * 60 * 1000)); // 100 requests per 15 minutes
     
-    // Request parsing
-    this.app.use(express.json({ limit: '10mb' }));
-    this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+    // Request parsing - MINIMAL
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
     
-    // Logging
-    this.app.use(requestLogger);
+    // Logging - TEMPORARILY DISABLED
+    // this.app.use(requestLogger);
     
     // Trust proxy for accurate IP addresses
-    this.app.set('trust proxy', 1);
+    // this.app.set('trust proxy', 1);
   }
 
   private initializeRoutes(): void {
@@ -83,6 +84,7 @@ class App {
             },
             tasks: {
               'GET /api/tasks': 'Lista todas as tarefas',
+              'POST /api/tasks': 'Cria uma nova tarefa',
               'GET /api/tasks/:id': 'Busca tarefa por ID',
               'PUT /api/tasks/:id': 'Atualiza tarefa',
               'DELETE /api/tasks/:id': 'Remove tarefa',
@@ -114,11 +116,14 @@ class App {
       });
     });
 
-    // Swagger documentation
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    // Swagger documentation - TEMPORARILY DISABLED
+    // this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     
     // Simple API routes (for testing)
     this.app.use('/api/simple', simpleRoutes);
+    
+    // Test routes for debugging
+    this.app.use('/api/test', testRoutes);
     
     // Full API routes
     this.app.use('/api/projects', projectRoutes);
@@ -140,6 +145,7 @@ class App {
           'POST /api/projects/:projectId/tasks - Cria tarefa',
           'GET /api/projects/:id/github/:username - Repositórios GitHub',
           'GET /api/tasks - Lista tarefas',
+          'POST /api/tasks - Cria tarefa',
           'GET /api/tasks/:id - Busca tarefa',
           'PUT /api/tasks/:id - Atualiza tarefa',
           'DELETE /api/tasks/:id - Remove tarefa',
@@ -188,6 +194,7 @@ class App {
         console.log('🚀 POST /api/projects/:projectId/tasks');
         console.log('🚀 GET  /api/projects/:id/github/:username');
         console.log('🚀 GET  /api/tasks');
+        console.log('🚀 POST /api/tasks');
         console.log('🚀 GET  /api/tasks/:id');
         console.log('🚀 PUT  /api/tasks/:id');
         console.log('🚀 DEL  /api/tasks/:id');

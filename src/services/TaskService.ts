@@ -62,57 +62,52 @@ export class TaskService {
       pages: number;
     };
   }> {
-    const cacheKey = cacheManager.generateKey('tasks', JSON.stringify(filters || {}), page, limit);
+    console.log('🔍 getTasks called with:', { filters, page, limit });
     
-    return await cacheManager.getOrSet(
-      cacheKey,
-      async () => {
-        const offset = (page - 1) * limit;
-        let tasks: any[];
-        let total: number;
-
-        if (filters?.overdue) {
-          tasks = await this.taskRepository.findOverdueTasks();
-          total = tasks.length;
-          tasks = tasks.slice(offset, offset + limit);
-        } else if (filters?.dueInDays) {
-          tasks = await this.taskRepository.findTasksDueIn(filters.dueInDays);
-          total = tasks.length;
-          tasks = tasks.slice(offset, offset + limit);
-        } else if (filters?.projectId) {
-          tasks = await this.taskRepository.findTasksForProject(filters.projectId, {
-            status: filters.status,
-            priority: filters.priority,
-            overdue: filters.overdue,
-          });
-          total = tasks.length;
-          tasks = tasks.slice(offset, offset + limit);
-        } else if (filters?.status) {
-          tasks = await this.taskRepository.findByStatus(filters.status);
-          total = tasks.length;
-          tasks = tasks.slice(offset, offset + limit);
-        } else if (filters?.priority) {
-          tasks = await this.taskRepository.findByPriority(filters.priority);
-          total = tasks.length;
-          tasks = tasks.slice(offset, offset + limit);
-        } else {
-          const result = await this.taskRepository.findAllWithProject(undefined, limit, offset);
-          tasks = result.rows;
-          total = result.count;
-        }
-
-        return {
-          tasks: tasks.map(t => t.toJSON()),
-          pagination: {
-            page,
-            limit,
-            total,
-            pages: Math.ceil(total / limit),
-          },
-        };
-      },
-      300 // 5 minutes TTL
-    );
+    try {
+      // ULTRA SIMPLE VERSION - no offset, no limit, no complex queries
+      console.log('📊 Calling taskRepository.findAll() - ultra simple');
+      const allTasks = await this.taskRepository.findAll();
+      console.log('📋 Found total tasks:', allTasks.length);
+      
+      // Manual pagination
+      const total = allTasks.length;
+      const offset = (page - 1) * limit;
+      const paginatedTasks = allTasks.slice(offset, offset + limit);
+      
+      console.log('📋 Paginated tasks:', paginatedTasks.length);
+      
+      return {
+        tasks: paginatedTasks.map(t => {
+          try {
+            return t.toJSON();
+          } catch (jsonError) {
+            console.error('⚠️ Error converting task to JSON:', jsonError);
+            return {
+              id: t.id,
+              title: t.title,
+              description: t.description,
+              status: t.status,
+              priority: t.priority,
+              projectId: t.projectId
+            };
+          }
+        }),
+        pagination: {
+          page: parseInt(String(page)),
+          limit: parseInt(String(limit)),
+          total,
+          pages: Math.ceil(total / limit),
+        },
+      };
+    } catch (error) {
+      console.error('❌ DETAILED Error in getTasks:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
+      throw error;
+    }
   }
 
   /**

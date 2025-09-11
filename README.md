@@ -1,477 +1,445 @@
-# 🚀 API REST Node.js - Gerenciador de Projetos e Tarefas
+# 🚀 Task Manager API
 
-**Sistema completo de gerenciamento de projetos e tarefas com integração GitHub**
+> **Sistema Robusto de Gerenciamento de Projetos e Tarefas com Integração GitHub**
 
-Esta é uma API REST robusta desenvolvida em Node.js + TypeScript que oferece funcionalidades completas de CRUD para projetos e tarefas, incluindo integração com a API do GitHub, sistema de cache, validações avançadas e documentação automática.
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Express](https://img.shields.io/badge/Express-4.18-lightgrey.svg)](https://expressjs.com/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)](https://www.mysql.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
+[![Swagger](https://img.shields.io/badge/Swagger-3.0-85EA2D.svg)](https://swagger.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## ✨ Funcionalidades Principais
+API REST profissional desenvolvida em **Node.js + TypeScript** para gerenciamento completo de projetos e tarefas, com integração ao **GitHub API**, arquitetura em camadas e documentação interativa.
 
-### 📋 Gestão de Projetos
-- ✅ **CRUD Completo**: Criar, visualizar, editar e excluir projetos
-- 📊 **Dashboard**: Estatísticas e métricas dos projetos
-- 🔍 **Busca Avançada**: Pesquisa por nome, descrição, status
-- 📅 **Filtros**: Por data de criação, status, período
-- 📄 **Paginação**: Resultados organizados e otimizados
+## ⚡ Início Rápido
 
-### ✅ Gestão de Tarefas
-- 🆕 **Criação**: Novas tarefas vinculadas aos projetos
-- 📝 **Edição**: Atualizar título, descrição, status, prioridade
-- 🎯 **Status**: Pendente, em progresso, concluída, cancelada
-- ⭐ **Prioridades**: Baixa, média, alta, crítica
-- 📅 **Prazos**: Sistema de datas de vencimento
-- 🔄 **Transições**: Mudança de status com validações
+### 📋 Pré-requisitos
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **Docker** e **Docker Compose** ([Download](https://docs.docker.com/get-docker/))
+- **Git** ([Download](https://git-scm.com/))
 
-### 🔗 Integração GitHub
-- 🔍 **API Integration**: Busca repositórios por usuário
-- 💾 **Cache Inteligente**: TTL configurável para otimização
-- 📊 **Estatísticas**: Stars, forks, linguagem principal
-- 🔄 **Sincronização**: Dados atualizados automaticamente
+### 🚀 Instalação
 
-### 🏗️ Arquitetura
-- 📐 **Clean Architecture**: Separação clara de responsabilidades
-- 🔧 **Repository Pattern**: Abstração da camada de dados
-- 🎛️ **Service Layer**: Lógica de negócio centralizada
-- 📊 **DTO Pattern**: Transferência de dados tipada
-- 🛡️ **Middleware Chain**: Validação, logging, tratamento de erros
-
-### 🚀 Performance & Caching
-- ⚡ **Cache Redis**: Cache distribuído com TTL (ou mock em memória)
-- 🔄 **Cache Invalidation**: Limpeza automática quando necessário
-- 📊 **Rate Limiting**: Controle de requisições por IP
-- 🗜️ **Compression**: Compressão gzip automática
-
-### 📚 Documentação
-- 📖 **Swagger UI**: Documentação interativa completa
-- 🔍 **OpenAPI 3.0**: Especificação padrão da indústria
-- 📝 **Schemas**: Modelos de dados documentados
-- 🧪 **Try It Out**: Teste direto na documentação
-
-## 🛠️ Stack Tecnológica
-
-### **Backend Core**
-- 🟢 **Node.js 18+**: Runtime JavaScript
-- 🔷 **TypeScript 5+**: Tipagem estática
-- ⚡ **Express.js**: Framework web minimalista
-- 📊 **Sequelize**: ORM para banco de dados
-
-### **Banco de Dados**
-- 📁 **SQLite**: Banco em memória para desenvolvimento
-- 🐘 **PostgreSQL**: Recomendado para produção
-- 🔄 **Migrations**: Versionamento do banco
-
-### **Validação & Segurança**
-- ✅ **Joi**: Validação de schemas
-- 🛡️ **Helmet**: Headers de segurança
-- 🔐 **CORS**: Controle de origem cruzada
-- 📊 **Rate Limiting**: Express-rate-limit
-
-### **Cache & Performance**
-- 🔴 **Redis**: Cache em memória distribuído (opcional)
-- 💾 **Cache Mock**: Sistema de cache em memória para desenvolvimento
-- 🗜️ **Compression**: Middleware gzip
-- ⚡ **Connection Pooling**: Pool de conexões
-
-### **Documentação & Teste**
-- 📖 **Swagger**: Documentação automática
-- 🧪 **Jest**: Framework de testes
-- 📊 **Coverage**: Cobertura de código
-- 📮 **Postman**: Collection de testes
-
-### **DevOps & Deploy**
-- 🐳 **Docker**: Containerização
-- 📦 **Docker Compose**: Orquestração
-- 🔧 **ESLint**: Linting de código
-- 🎨 **Prettier**: Formatação
-
-## 📦 Instalação Rápida
-
-### **Pré-requisitos**
-- Node.js 18 ou superior
-- NPM 8 ou superior
-- Git
-
-### **1. Clone o repositório**
 ```bash
-git clone https://github.com/seu-usuario/node-js-test.git
+# 1. Clone o repositório
+git clone https://github.com/ruanhanani/node-js-test.git
 cd node-js-test
-```
 
-### **2. Instale as dependências**
-```bash
+# 2. Instale as dependências
 npm install
-```
 
-### **3. Execute a aplicação**
-```bash
-# Modo desenvolvimento (recomendado)
-npm run dev
-
-# Ou build + execução
+# 3. Compile o TypeScript
 npm run build
-npm start
-```
 
-### **4. Acesse a aplicação**
-- 🌐 **API**: http://localhost:3000
-- 📚 **Swagger UI**: http://localhost:3000/api-docs
-- ❤️ **Health Check**: http://localhost:3000/health
-- 🧪 **Endpoints Simples**: http://localhost:3000/api/simple/health
-
-**Pronto! A API está rodando com dados mock pré-carregados.**
-
-## 🚀 Uso Rápido
-
-### **Endpoints para Teste Imediato**
-
-```bash
-# Health Check
-curl http://localhost:3000/api/simple/health
-
-# Listar projetos (já populados)
-curl http://localhost:3000/api/simple/projects
-
-# Ver projeto específico com dados relacionados
-curl http://localhost:3000/api/simple/projects/1/with-relations
-
-# Criar novo projeto
-curl -X POST http://localhost:3000/api/simple/projects \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Meu Projeto","description":"Teste via API"}'
-
-# Listar tarefas
-curl http://localhost:3000/api/simple/tasks
-
-# Criar nova tarefa
-curl -X POST http://localhost:3000/api/simple/tasks \
-  -H "Content-Type: application/json" \
-  -d '{"title":"Nova Tarefa","projectId":1}'
-```
-
-### **Dados Mock Disponíveis**
-A aplicação já vem com:
-- **3 Projetos** (Website, Mobile App, API Service)
-- **6 Tarefas** distribuídas entre os projetos
-- **3 Repositórios GitHub** de exemplo
-
-### **Collection Postman**
-Importe o arquivo `postman-collection.json` no Postman para ter todos os endpoints pré-configurados!
-
-## 📚 Documentação Completa da API
-
-### **🎯 Endpoints Simples (Recomendado para teste)**
-
-#### **Health Check**
-```bash
-GET /api/simple/health
-```
-**Resposta**: Status da API + estatísticas do banco
-
-#### **Projetos**
-```bash
-# Listar todos os projetos
-GET /api/simple/projects
-
-# Buscar projeto por ID
-GET /api/simple/projects/{id}
-
-# Projeto com tarefas e repositórios
-GET /api/simple/projects/{id}/with-relations
-
-# Criar novo projeto
-POST /api/simple/projects
-{
-  "name": "Nome do Projeto",
-  "description": "Descrição opcional",
-  "status": "active" // active, inactive, completed
-}
-```
-
-#### **Tarefas**
-```bash
-# Listar todas as tarefas
-GET /api/simple/tasks
-
-# Criar nova tarefa
-POST /api/simple/tasks
-{
-  "title": "Título da Tarefa",
-  "description": "Descrição opcional",
-  "status": "pending", // pending, in_progress, completed, cancelled
-  "priority": "medium", // low, medium, high, critical
-  "projectId": 1
-}
-```
-
-#### **Repositórios GitHub**
-```bash
-# Listar repositórios GitHub
-GET /api/simple/repos
-```
-
-### **🔧 Endpoints Completos (Com cache e validações)**
-
-#### **Projetos Avançados**
-```bash
-# Listar com filtros e paginação
-GET /api/projects?status=active&page=1&limit=10
-
-# Busca textual
-GET /api/projects/search?q=website
-
-# Filtro por data
-GET /api/projects/date-range?startDate=2024-01-01&endDate=2024-12-31
-
-# Estatísticas
-GET /api/projects/stats
-
-# Projetos ativos
-GET /api/projects/active
-
-# CRUD completo
-POST /api/projects
-PUT /api/projects/{id}
-DELETE /api/projects/{id}
-```
-
-#### **Tarefas Avançadas**
-```bash
-# Listar com filtros
-GET /api/tasks?status=pending&priority=high&page=1&limit=10
-
-# Tarefas de um projeto
-GET /api/projects/{id}/tasks
-
-# Transições de status
-PATCH /api/tasks/{id}/complete
-PATCH /api/tasks/{id}/start
-PATCH /api/tasks/{id}/cancel
-
-# Estatísticas
-GET /api/tasks/stats
-
-# CRUD completo
-PUT /api/tasks/{id}
-DELETE /api/tasks/{id}
-```
-
-#### **GitHub Integration**
-```bash
-# Repositórios de um usuário GitHub
-GET /api/projects/{id}/github/{username}
-
-# Estatísticas GitHub de um projeto
-GET /api/projects/{id}/github-stats
-
-# Limpar cache GitHub
-DELETE /api/projects/{id}/github-cache
-```
-
-## ⚙️ Configuração Avançada
-
-### **Variáveis de Ambiente (.env)**
-```env
-# Servidor
-PORT=3000
-NODE_ENV=development
-
-# Banco de Dados (Opcional - usa SQLite em memória por padrão)
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=nodetest
-DB_USER=postgres
-DB_PASS=senha123
-
-# Cache Redis (Opcional - usa cache em memória por padrão)
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=
-CACHE_TTL=600
-
-# GitHub API (Opcional)
-GITHUB_TOKEN=seu_token_aqui
-
-# Rate Limiting
-RATE_LIMIT_WINDOW=900000
-RATE_LIMIT_MAX=100
-```
-
-### **Docker (Opcional)**
-```bash
-# Desenvolvimento com Docker
+# 4. Inicie apenas o banco MySQL via Docker
 docker-compose up -d
 
-# Apenas banco e Redis
-docker-compose up -d postgres redis
-npm run dev
+# 5. Execute a API localmente
+node start.js
 ```
 
-## 🧪 Testes
-
-```bash
-# Executar todos os testes
-npm test
-
-# Modo watch
-npm run test:watch
-
-# Coverage
-npm run test:coverage
-
-# Testes específicos
-npm test -- --testPathPattern=project
-```
-
-## 📊 Scripts Disponíveis
-
-```bash
-npm run dev          # Desenvolvimento com hot reload
-npm run build        # Compilar TypeScript
-npm start            # Produção
-npm test             # Executar testes
-npm run lint         # Linting ESLint
-npm run format       # Formatação Prettier
-```
-
-## 📁 Estrutura do Projeto
-
-```
-src/
-├── config/              # Configurações
-│   ├── database.ts      # Config SQLite/PostgreSQL
-│   ├── database-simple.ts # Config SQLite em memória
-│   ├── redis.ts         # Config Redis
-│   └── swagger.ts       # Config Swagger
-├── controllers/         # Controllers da API
-│   ├── ProjectController.ts
-│   ├── TaskController.ts
-│   └── SimpleController.ts
-├── middlewares/         # Middlewares
-│   └── errorHandler.ts
-├── models/             # Modelos Sequelize
-│   ├── Project.ts
-│   ├── Task.ts
-│   └── GitHubRepo.ts
-├── repositories/       # Repository pattern
-│   ├── ProjectRepository.ts
-│   └── TaskRepository.ts
-├── routes/             # Rotas
-│   ├── projectRoutes.ts
-│   ├── taskRoutes.ts
-│   └── simple.ts
-├── services/           # Lógica de negócio
-│   ├── ProjectService.ts
-│   ├── TaskService.ts
-│   └── GitHubService.ts
-├── utils/              # Utilitários
-│   ├── cache.ts        # Cache Redis
-│   └── cache-mock.ts   # Cache em memória
-└── index.ts            # Entry point
-```
-
-## 🚀 Deploy em Produção
-
-### **Environment Variables**
-```bash
-NODE_ENV=production
-PORT=3000
-DB_HOST=seu_postgres_host
-DB_NAME=seu_banco
-DB_USER=seu_usuario
-DB_PASS=sua_senha
-REDIS_HOST=seu_redis_host
-GITHUB_TOKEN=seu_token_github
-```
-
-### **Docker**
-```bash
-# Build da imagem
-docker build -t nodetest-api .
-
-# Executar
-docker run -p 3000:3000 -e NODE_ENV=production nodetest-api
-```
-
-## 🤝 Contribuição
-
-1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -am 'feat: nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
-### **Padrões de Commit**
-- `feat:` nova funcionalidade
-- `fix:` correção de bug
-- `docs:` documentação
-- `refactor:` refatoração
-- `test:` testes
-- `chore:` manutenção
-
-## 📋 Roadmap
-
-- [ ] Autenticação JWT
-- [ ] Websockets para notificações
-- [ ] Upload de arquivos
-- [ ] Logs estruturados
-- [ ] Métricas Prometheus
-- [ ] CI/CD Pipeline
-- [ ] Kubernetes deployment
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## 👨‍💻 Autor
-
-**Ruan Hanani**
-- 📧 Email: ruanhanani@exemplo.com
-- 🐙 GitHub: [@ruanhanani](https://github.com/ruanhanani)
-- 💼 LinkedIn: [Ruan Hanani](https://linkedin.com/in/ruanhanani)
-
-## 🎯 Features Implementadas
-
-- ✅ **CRUD Completo** - Projetos e Tarefas
-- ✅ **Integração GitHub** - API oficial do GitHub
-- ✅ **Cache Sistema** - Redis + Mock em memória
-- ✅ **Documentação Swagger** - Interativa e completa
-- ✅ **Validações Robustas** - Joi schemas
-- ✅ **Tratamento de Erros** - Middleware global
-- ✅ **Logs Estruturados** - Request/Response logging
-- ✅ **Rate Limiting** - Proteção contra spam
-- ✅ **Compressão** - Otimização de performance
-- ✅ **CORS** - Configuração de segurança
-- ✅ **TypeScript** - Tipagem completa
-- ✅ **Testes** - Jest framework
-- ✅ **Docker** - Containerização
-- ✅ **Postman Collection** - Testes prontos
-- ✅ **Dados Mock** - Ambiente de teste
-
-## 🔥 Quick Start Summary
-
-```bash
-# Clone e instale
-git clone https://github.com/seu-usuario/node-js-test.git
-cd node-js-test
-npm install
-
-# Execute
-npm run dev
-
-# Teste
-curl http://localhost:3000/api/simple/health
-
-# Swagger
-open http://localhost:3000/api-docs
-```
-
-**🎉 Pronto! Sua API REST completa está funcionando!**
+✅ **API disponível em:** `http://localhost:3000`
 
 ---
 
-<p align="center">
-  Desenvolvido com ❤️ e ☕ por <strong>Ruan Hanani</strong>
-</p>
+## 🌟 Funcionalidades Principais
 
-<p align="center">
-  <a href="#-api-rest-nodejs---gerenciador-de-projetos-e-tarefas">⬆️ Voltar ao topo</a>
-</p>
+### ✅ **CRUD Completo**
+- 📂 **Projetos** - Criação, listagem, edição e exclusão
+- 📝 **Tarefas** - Gerenciamento completo com prioridades e status
+- 📄 **Paginação** - Controle de resultados em todas as listagens
+
+### ✅ **Integração GitHub**
+- 🐙 **Repositórios** - Busca de repos públicos por usuário
+- 📈 **Metadados** - Estrelas, forks, linguagem, descrição
+- 🔄 **Cache Inteligente** - TTL de 10 minutos
+- 🛡️ **Rate Limiting** - Proteção contra abuse
+
+### ✅ **Arquitetura Robusta**
+- 🏗️ **Camadas Bem Definidas** - Controller → Service → Repository
+- 🛡️ **Validação Rigorosa** - Joi para entrada de dados
+- 🚨 **Tratamento de Erros** - Middleware centralizado
+- 📝 **Logs Estruturados** - Para debugging e monitoramento
+
+### ✅ **Developer Experience**
+- 📖 **Swagger UI** - Documentação interativa em tempo real
+- 🗺️ **Collection Postman** - Endpoints prontos para teste
+- 🐳 **Docker Ready** - Setup instantâneo com containers
+- 📋 **TypeScript** - Tipagem forte e desenvolvimento moderno
+
+---
+
+## 📚 Documentação
+
+| Recurso | URL/Arquivo | Descrição |
+|---------|-------------|-------------|
+| 📖 **Swagger UI** | [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs) | Documentação interativa completa |
+| 🥰 **Health Check** | [`http://localhost:3000/health`](http://localhost:3000/health) | Status da API |
+| 📄 **Collection Postman** | `docs/task-manager-api.postman_collection.json` | Requests organizadas para importação |
+| 🏠 **Homepage** | [`http://localhost:3000/`](http://localhost:3000/) | Página inicial da API |
+
+---
+
+## 🗂️ Endpoints da API
+
+### 📂 **Projects CRUD**
+
+| Método | Endpoint | Descrição | Filtros/Parâmetros |
+|--------|----------|-----------|-------------------|
+| `GET` | `/api/projects` | 📋 Listar projetos | `?page=1&limit=10&status=active&search=termo` |
+| `POST` | `/api/projects` | ➕ Criar projeto | `name*`, `description`, `status`, `startDate`, `endDate` |
+| `GET` | `/api/projects/:id` | 🔍 Buscar por ID | - |
+| `PUT` | `/api/projects/:id` | ✏️ Atualizar projeto | Campos opcionais |
+| `DELETE` | `/api/projects/:id` | ✖️ Remover projeto | - |
+
+### 📝 **Tasks CRUD**
+
+| Método | Endpoint | Descrição | Filtros/Parâmetros |
+|--------|----------|-----------|-------------------|
+| `GET` | `/api/tasks` | 📋 Listar tarefas | `?page=1&limit=10&status=pending&priority=high&projectId=1` |
+| `GET` | `/api/tasks/:id` | 🔍 Buscar por ID | - |
+| `PUT` | `/api/tasks/:id` | ✏️ Atualizar tarefa | `title`, `description`, `status`, `priority`, `dueDate` |
+| `DELETE` | `/api/tasks/:id` | ✖️ Remover tarefa | - |
+
+### 🐙 **GitHub Integration**
+
+| Método | Endpoint | Descrição | Parâmetros |
+|--------|-----------|-----------|-----------|
+| `GET` | `/api/projects/:id/github/:username` | 🐙 Buscar repositórios GitHub | `id`: Project ID, `username`: GitHub username |
+| `DELETE` | `/api/projects/:id/github-cache` | 🗑️ Limpar cache GitHub | `?username=user` (opcional) |
+
+#### 🚀 **Exemplos da Integração GitHub:**
+
+```bash
+# Buscar repositórios do anuraghazra (github-readme-stats)
+GET /api/projects/1/github/anuraghazra
+
+# Buscar repositórios da EbookFoundation (free-programming-books) 
+GET /api/projects/1/github/EbookFoundation
+
+# Buscar repositórios do public-apis
+GET /api/projects/1/github/public-apis
+
+# Limpar cache para usuário específico
+DELETE /api/projects/1/github-cache?username=anuraghazra
+```
+
+#### 📊 **Resposta da API:**
+```json
+{
+  "success": true,
+  "message": "Repositórios do GitHub para anuraghazra recuperados com sucesso",
+  "data": {
+    "project": {
+      "id": 1,
+      "name": "E-commerce Platform",
+      "status": "active"
+    },
+    "repositories": [
+      {
+        "githubId": 278335273,
+        "name": "github-readme-stats",
+        "fullName": "anuraghazra/github-readme-stats",
+        "description": "⚡ Dynamically generated stats for your github readmes",
+        "htmlUrl": "https://github.com/anuraghazra/github-readme-stats",
+        "language": "JavaScript",
+        "stargazersCount": 75828,
+        "forksCount": 25917,
+        "private": false,
+        "projectId": 1
+      }
+    ],
+    "meta": {
+      "cached": false,
+      "totalRepositories": 5,
+      "fetchedAt": "2025-09-11T14:56:19.421Z"
+    }
+  }
+}
+```
+
+### 🔥 **Testes Realizados com Sucesso:**
+
+#### ✅ **anuraghazra** (github-readme-stats)
+- 📊 **75,828 estrelas** - github-readme-stats
+- 📊 **604 estrelas** - anuraghazra.github.io  
+- 📊 **695 estrelas** - Verly.js
+- 📊 **369 estrelas** - anuraghazra (profile README)
+- 📊 **52 estrelas** - Atomic.js
+
+#### ✅ **EbookFoundation** (free-programming-books)
+- 📊 **367,907 estrelas** - free-programming-books
+- 📊 **1,965 estrelas** - free-science-books
+- 📊 **347 estrelas** - free-programming-books-search
+- 📊 **272 estrelas** - ebookfoundation.github.io
+- 📊 **2 estrelas** - altpoet
+
+#### ✅ **public-apis**
+- 📊 **364,711 estrelas** - public-apis
+
+---
+
+## 🛠️ Stack Tecnológica
+
+### 🔥 **Backend Core**
+- 🟢 **Node.js 18+** - Runtime JavaScript de alta performance
+- 🔵 **TypeScript 5.0** - Tipagem estática e desenvolvimento moderno
+- ⚡ **Express.js** - Framework web rápido e minimalista
+- 🏗️ **Arquitetura em Camadas** - Controller → Service → Repository
+
+### 🗄️ **Banco de Dados & ORM**
+- 🐬 **MySQL 8.0** - Banco relacional robusto
+- 🔗 **Sequelize** - ORM com relações e migrações
+- 🐳 **PHPMyAdmin** - Interface de administração web
+
+### 🛡️ **Validação & Segurança**
+- ✅ **Joi** - Validação robusta de schemas
+- 🛡️ **Helmet** - Headers de segurança HTTP
+- 📈 **Rate Limiting** - Controle de taxa de requisições
+- 🗁️ **CORS** - Controle de acesso cross-origin
+
+### 📝 **Documentação & Testes**
+- 📖 **Swagger/OpenAPI 3.0** - Documentação auto-gerada
+- 🧪 **Jest** - Framework de testes
+- 🗺️ **Postman Collection** - Testes de integração
+
+### 🐙 **Integrações Externas**
+- 🐙 **GitHub API** - Busca de repositórios públicos
+- 🔄 **Cache em Memória** - TTL configurável para performance
+
+### 🚀 **DevOps & Deploy**
+- 🐳 **Docker** - Containerização completa
+- 📋 **Docker Compose** - Orquestração multi-container
+- 🏗️ **Multi-stage Build** - Builds otimizados
+
+---
+
+## 🗄️ Banco de Dados
+
+### 🔗 **Configuração de Conexão**
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=nodetest_db
+DB_USER=root
+DB_PASS=rootpassword
+```
+
+### 🗂️ **Estrutura das Tabelas**
+
+#### 📂 **Projects** (Projetos)
+| Campo | Tipo | Restrições | Descrição |
+|-------|------|------------|-------------|
+| `id` | `INT` | `PK`, `AUTO_INCREMENT` | Identificador único |
+| `name` | `VARCHAR(255)` | `NOT NULL` | Nome do projeto |
+| `description` | `TEXT` | `NULLABLE` | Descrição detalhada |
+| `status` | `ENUM` | `'active', 'inactive', 'completed'` | Status atual |
+| `startDate` | `DATE` | `NULLABLE` | Data de início |
+| `endDate` | `DATE` | `NULLABLE` | Data prevista de término |
+| `createdAt` | `DATETIME` | `NOT NULL` | Data de criação |
+| `updatedAt` | `DATETIME` | `NOT NULL` | Última atualização |
+
+#### 📝 **Tasks** (Tarefas)
+| Campo | Tipo | Restrições | Descrição |
+|-------|------|------------|-------------|
+| `id` | `INT` | `PK`, `AUTO_INCREMENT` | Identificador único |
+| `title` | `VARCHAR(255)` | `NOT NULL` | Título da tarefa |
+| `description` | `TEXT` | `NULLABLE` | Descrição detalhada |
+| `status` | `ENUM` | `'pending', 'in_progress', 'completed', 'cancelled'` | Status atual |
+| `priority` | `ENUM` | `'low', 'medium', 'high', 'critical'` | Nível de prioridade |
+| `dueDate` | `DATE` | `NULLABLE` | Data de vencimento |
+| `projectId` | `INT` | `FK → projects.id` | Projeto associado |
+| `createdAt` | `DATETIME` | `NOT NULL` | Data de criação |
+| `updatedAt` | `DATETIME` | `NOT NULL` | Última atualização |
+
+#### 🐙 **GitHub_Repos** (Repositórios GitHub)
+| Campo | Tipo | Restrições | Descrição |
+|-------|------|------------|-------------|
+| `id` | `INT` | `PK`, `AUTO_INCREMENT` | Identificador único |
+| `githubId` | `BIGINT` | `UNIQUE`, `NOT NULL` | ID do GitHub |
+| `name` | `VARCHAR(255)` | `NOT NULL` | Nome do repositório |
+| `fullName` | `VARCHAR(255)` | `NOT NULL` | Nome completo (owner/repo) |
+| `description` | `TEXT` | `NULLABLE` | Descrição do repositório |
+| `htmlUrl` | `VARCHAR(500)` | `NOT NULL` | URL do repositório |
+| `cloneUrl` | `VARCHAR(500)` | `NOT NULL` | URL para clonagem |
+| `language` | `VARCHAR(100)` | `NULLABLE` | Linguagem principal |
+| `stargazersCount` | `INT` | `DEFAULT 0` | Número de estrelas |
+| `forksCount` | `INT` | `DEFAULT 0` | Número de forks |
+| `private` | `BOOLEAN` | `DEFAULT FALSE` | Repositório privado |
+| `username` | `VARCHAR(255)` | `NOT NULL` | Usuário GitHub |
+| `projectId` | `INT` | `FK → projects.id` | Projeto associado |
+| `githubCreatedAt` | `DATETIME` | `NOT NULL` | Criação no GitHub |
+| `githubUpdatedAt` | `DATETIME` | `NOT NULL` | Última atualização no GitHub |
+| `createdAt` | `DATETIME` | `NOT NULL` | Data de criação local |
+| `updatedAt` | `DATETIME` | `NOT NULL` | Última atualização local |
+
+### 📊 **Dados de Exemplo**
+O banco é automaticamente populado com:
+- 📂 **5 Projetos** com diferentes status e cronogramas
+- 📝 **19 Tarefas** distribuídas pelos projetos
+- 🐙 **8 Repositórios GitHub** com metadados reais
+
+## 🏗️ Arquitetura do Projeto
+
+```
+src/
+├── config/            # Configurações (DB, Swagger, Cache)
+│   ├── database-mysql.ts
+│   ├── database-simple.ts
+│   ├── redis.ts
+│   └── swagger.ts
+├── controllers/       # Controladores (lógica HTTP)
+│   ├── ProjectController.ts
+│   ├── TaskController.ts
+│   └── SimpleController.ts
+├── middlewares/       # Middlewares (validação, erros)
+│   ├── errorHandler.ts
+│   └── validation.ts
+├── models/            # Modelos Sequelize
+│   ├── Project.ts
+│   ├── Task.ts
+│   └── GitHubRepo.ts
+├── repositories/      # Acesso a dados
+│   ├── BaseRepository.ts
+│   ├── ProjectRepository.ts
+│   ├── TaskRepository.ts
+│   └── GitHubRepository.ts
+├── routes/            # Rotas da API
+│   ├── projectRoutes.ts
+│   ├── taskRoutes.ts
+│   ├── projectTaskRoutes.ts
+│   └── simple.ts
+├── services/          # Lógica de negócio
+│   ├── ProjectService.ts
+│   ├── TaskService.ts
+│   └── GitHubService.ts
+├── tests/             # Testes (setup)
+│   └── setup.ts
+├── utils/             # Utilitários
+│   ├── cache.ts
+│   └── cache-mock.ts
+└── index.ts           # Entrada da aplicação
+```
+
+---
+
+## 🐳 Docker
+
+> **Observação**: Docker roda apenas **MySQL** + **phpMyAdmin**. A **API** executa localmente via `node start.js`.
+
+### 🚀 **Comandos Rápidos**
+```bash
+# Subir banco MySQL e phpMyAdmin
+docker-compose up -d
+
+# Ver logs em tempo real
+docker-compose logs -f
+
+# Parar todos os containers
+docker-compose down
+
+# Restart completo
+docker-compose down && docker-compose up -d
+```
+
+### 🌐 **Acesso aos Serviços:**
+- 🚀 **API**: [http://localhost:3000](http://localhost:3000) *(roda localmente)*
+- 🐬 **PHPMyAdmin**: [http://localhost:8080](http://localhost:8080) *(container)*
+- 🗄️ **MySQL**: `localhost:3306` *(container)*
+
+---
+
+## 📦 Collection do Postman
+
+### 📝 **Arquivo:** `docs/Task Manager - API.postman_collection.json`
+
+#### 🚀 **Como Importar:**
+1. 🗺️ Abra o **Postman**
+2. 📎 Clique em **Import**
+3. 📁 Selecione o arquivo `docs/Task Manager - API.postman_collection.json`
+4. ✅ A collection será importada com todas as requests organizadas
+
+#### 🎯 **Conteúdo da Collection:**
+
+| Categoria | Requests | Descrição |
+|-----------|----------|-------------|
+| 📊 **API Info** | 2 | Health check e documentação |
+| 📂 **Projects CRUD** | 5 | CRUD completo de projetos |
+| 📝 **Tasks CRUD** | 9 | CRUD completo + ações (start, complete, cancel) |
+
+#### 🔧 **Variável Pré-configurada:**
+- `baseUrl`: `http://localhost:3000`
+
+---
+
+## 🔧 Scripts Disponíveis
+
+### 🚀 **Desenvolvimento**
+```bash
+node start.js            # ⭐ Comando principal - Execução direta
+npm run dev              # Servidor em modo watch (hot reload)
+npm run build            # Compilar TypeScript
+npm start                # Executar com npm (alternativo)
+```
+
+### 🧪 **Qualidade de Código**
+```bash
+npm run lint             # Verificar código com ESLint
+npm run lint:fix         # Corrigir problemas automaticamente
+npm run format           # Formatar código com Prettier
+npm test                 # Executar testes
+```
+
+---
+
+## 💨 Troubleshooting
+
+### 🚀 **API não inicia**
+- ✅ Verifique se a **porta 3000** está livre
+- ✅ Execute `npm run build` antes de `node start.js`
+- ✅ Confirme **Node.js 18+**: `node --version`
+
+### 🐬 **MySQL não conecta**
+- ✅ Aguarde **~15 segundos** após `docker-compose up -d`
+- ✅ Verifique se a **porta 3306** está livre
+- ✅ Confirme se o **Docker** está rodando: `docker ps`
+
+### 🛠️ **Build falha**
+- ✅ Execute `npm install` novamente
+- ✅ Limpe o cache: `npm cache clean --force`
+- ✅ Verifique dependências: `npm audit`
+
+### 🔗 **Endpoints não respondem**
+- ✅ Teste primeiro: [http://localhost:3000/health](http://localhost:3000/health)
+- ✅ Verifique logs no console
+- ✅ Confirme conexão com banco de dados
+
+---
+
+## 👨‍💻 Desenvolvedor
+
+### **Ruan Hanani Galindo Oliveira**
+
+- 🐙 **GitHub**: [github.com/ruanhanani](https://github.com/ruanhanani)
+- 🔗 **LinkedIn**: [linkedin.com/in/ruanhananí](https://www.linkedin.com/in/ruanhananí)
+- 📧 **Email**: hanani.ruan@gmail.com
+
+> ***Engenheiro de Dados e Full Stack Developer*** *especializado em* ***Node.js***, ***TypeScript***, ***JavaScript***, ***Python***  *e arquiteturas de dados*
+
+
+---
+
+<div align="center">
+
+### 🌟 ***Se este projeto foi útil para você, considere dar uma estrela!*** ⭐
+
+---
+
+### 🚀 ***Happy Coding!*** 🚀
+
+### *Feito com* ❤️ *e muito* ☕ *por* [***Ruan Hanani***](https://github.com/ruanhanani)
+
+</div>
+

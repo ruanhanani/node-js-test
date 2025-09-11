@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "es2020",
     "module": "commonjs",
-    "lib": ["ES2020"],
+    "lib": ["es2020"],
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -15,18 +15,17 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@config/*": ["./config/*"],
-      "@controllers/*": ["./controllers/*"],
-      "@services/*": ["./services/*"],
-      "@repositories/*": ["./repositories/*"],
-      "@models/*": ["./models/*"],
-      "@middlewares/*": ["./middlewares/*"],
-      "@routes/*": ["./routes/*"],
-      "@utils/*": ["./utils/*"]
+      "@/*": ["src/*"],
+      "@config/*": ["src/config/*"],
+      "@models/*": ["src/models/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@services/*": ["src/services/*"],
+      "@repositories/*": ["src/repositories/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@routes/*": ["src/routes/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": ["src/**/*"],
