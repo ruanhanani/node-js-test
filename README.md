@@ -426,7 +426,7 @@ npm test                 # Executar testes
 - 🔗 **LinkedIn**: [linkedin.com/in/ruanhananí](https://www.linkedin.com/in/ruanhananí)
 - 📧 **Email**: hanani.ruan@gmail.com
 
-> ***Engenheiro de Dados e Full Stack Developer*** *especializado em* ***Node.js***, ***TypeScript***, ***JavaScript***, ***Python***  *e arquiteturas de dados*
+> ***Engenheiro de Dados e Full Stack Developer*** *especializado em* ***Node.js***, ***TypeScript***, ***JavaScript***, ***Python***  *e ferramentas de engenharia e arquitetura de dados*
 
 
 ---
